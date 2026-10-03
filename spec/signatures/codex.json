@@ -1,0 +1,32 @@
+{
+  "schema": "anahid.signatures/1",
+  "agent": "codex",
+  "tested": [
+    "0.149.0",
+    "0.155.1"
+  ],
+  "vendorLabels": {},
+  "advice": {
+    "classifier": "Codex's automatic reviewer denied these or ran out of time. --examples 1 shows the reasons. Timeouts are not judgements; a retry or a person can still approve.",
+    "sandbox": "Codex's sandbox refused these. Widen writable_roots for that project, or run that work under a less strict sandbox.",
+    "unknown": "This version cannot place these. Please report the message text so a signature can be added."
+  },
+  "signatures": [
+    {
+      "id": "cx.reviewer-denied",
+      "layer": "classifier",
+      "pattern": "^This action was rejected due to unacceptable risk\\."
+    },
+    {
+      "id": "cx.reviewer-timeout",
+      "layer": "classifier",
+      "pattern": "^The automatic permission approval review did not finish before its deadline\\."
+    },
+    {
+      "id": "cx.sandbox",
+      "layer": "sandbox",
+      "pattern": "rejected by user approval settings",
+      "claims": "person"
+    }
+  ]
+}

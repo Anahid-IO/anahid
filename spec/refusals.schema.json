@@ -1,0 +1,493 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://anahid.io/schemas/refusals/1.json",
+  "title": "anahid refusals report",
+  "type": "object",
+  "required": [
+    "schema",
+    "generator",
+    "generatedAt",
+    "arguments",
+    "reports"
+  ],
+  "properties": {
+    "schema": {
+      "const": "anahid.refusals/1"
+    },
+    "generator": {
+      "type": "object",
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "const": "anahid"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "arguments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "the command-line arguments, home directory written as ~"
+    },
+    "reports": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/report"
+      }
+    }
+  },
+  "$defs": {
+    "count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/count"
+      }
+    },
+    "layer": {
+      "enum": [
+        "person",
+        "unanswered",
+        "rule",
+        "hook",
+        "classifier",
+        "program",
+        "sandbox",
+        "builtin",
+        "interrupted",
+        "unknown"
+      ]
+    },
+    "example": {
+      "type": "object",
+      "required": [
+        "at",
+        "tool",
+        "target",
+        "text"
+      ],
+      "properties": {
+        "at": {
+          "type": "string",
+          "description": "file:line of the record"
+        },
+        "tool": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "target": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "vendorLabel": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sidechain": {
+          "type": "boolean"
+        },
+        "risk": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "authorization": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "report": {
+      "type": "object",
+      "required": [
+        "engine",
+        "files",
+        "calls",
+        "failed",
+        "noResult",
+        "refused",
+        "byLayer",
+        "bySignature",
+        "byVendorLabel",
+        "mislabelled",
+        "inferred",
+        "inferredByLayer",
+        "inSubagents",
+        "examples",
+        "unansweredAskers",
+        "classifierReasons",
+        "hookTimeoutsRanUnchecked",
+        "duplicates",
+        "period",
+        "malformedLines",
+        "versions",
+        "testedVersions",
+        "blindSpots",
+        "byProject",
+        "advice",
+        "byHuman",
+        "undeclared",
+        "unaccountable",
+        "declaration",
+        "byRepository",
+        "ungroupedDirectories"
+      ],
+      "properties": {
+        "engine": {
+          "enum": [
+            "claude-code",
+            "codex"
+          ]
+        },
+        "files": {
+          "$ref": "#/$defs/count"
+        },
+        "calls": {
+          "$ref": "#/$defs/count",
+          "description": "tool calls counted, each vendor id once"
+        },
+        "failed": {
+          "$ref": "#/$defs/count",
+          "description": "errors that are not refusals"
+        },
+        "noResult": {
+          "$ref": "#/$defs/count"
+        },
+        "refused": {
+          "$ref": "#/$defs/count"
+        },
+        "byLayer": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/layer"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/count"
+          }
+        },
+        "bySignature": {
+          "$ref": "#/$defs/counts"
+        },
+        "byVendorLabel": {
+          "$ref": "#/$defs/counts"
+        },
+        "mislabelled": {
+          "$ref": "#/$defs/count",
+          "description": "refusals whose vendor label claims a different layer"
+        },
+        "inferred": {
+          "$ref": "#/$defs/count",
+          "description": "refusals placed by a catch-all signature"
+        },
+        "inferredByLayer": {
+          "$ref": "#/$defs/counts"
+        },
+        "inSubagents": {
+          "$ref": "#/$defs/count"
+        },
+        "examples": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/layer"
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/example"
+            }
+          }
+        },
+        "unansweredAskers": {
+          "$ref": "#/$defs/counts"
+        },
+        "classifierReasons": {
+          "$ref": "#/$defs/counts"
+        },
+        "hookTimeoutsRanUnchecked": {
+          "$ref": "#/$defs/count"
+        },
+        "duplicates": {
+          "$ref": "#/$defs/count",
+          "description": "calls seen again in another transcript and not counted"
+        },
+        "period": {
+          "type": "object",
+          "required": [
+            "from",
+            "to"
+          ],
+          "properties": {
+            "from": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "to": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "malformedLines": {
+          "$ref": "#/$defs/count"
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "testedVersions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "cleanup": {
+          "type": "object",
+          "description": "Claude Code only",
+          "properties": {
+            "days": {
+              "type": "number"
+            },
+            "source": {
+              "enum": [
+                "settings.json",
+                "default"
+              ]
+            }
+          }
+        },
+        "reviews": {
+          "type": "object",
+          "description": "Codex only: the automatic reviewer's verdicts",
+          "properties": {
+            "requests": {
+              "$ref": "#/$defs/count"
+            },
+            "allow": {
+              "$ref": "#/$defs/count"
+            },
+            "deny": {
+              "$ref": "#/$defs/count"
+            },
+            "noVerdict": {
+              "$ref": "#/$defs/count"
+            },
+            "byRisk": {
+              "$ref": "#/$defs/counts"
+            },
+            "allowedHighRisk": {
+              "$ref": "#/$defs/count"
+            },
+            "allowedWithoutClearAuthorization": {
+              "$ref": "#/$defs/count"
+            },
+            "examples": {
+              "type": "object",
+              "properties": {
+                "deny": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/example"
+                  }
+                },
+                "unclear": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/example"
+                  }
+                }
+              }
+            },
+            "matched": {
+              "$ref": "#/$defs/count",
+              "description": "verdicts paired with the act they judged"
+            },
+            "ranOnReviewerAlone": {
+              "$ref": "#/$defs/count",
+              "description": "matched acts that ran on an allow, with no person asked"
+            },
+            "ranWithoutClearAuthorization": {
+              "$ref": "#/$defs/count"
+            }
+          }
+        },
+        "personReviewedTurns": {
+          "$ref": "#/$defs/count",
+          "description": "Codex only"
+        },
+        "sandboxSuspects": {
+          "$ref": "#/$defs/count",
+          "description": "Codex only"
+        },
+        "unreadExecErrors": {
+          "$ref": "#/$defs/count",
+          "description": "Codex only"
+        },
+        "blindSpots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "text"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "byProject": {
+          "type": "object",
+          "description": "per working directory",
+          "additionalProperties": {
+            "$ref": "#/$defs/row"
+          }
+        },
+        "advice": {
+          "type": "object",
+          "description": "what to do, for each layer that refused something",
+          "propertyNames": {
+            "$ref": "#/$defs/layer"
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "byHuman": {
+          "type": "object",
+          "description": "per declared person who answers, keyed as in the declaration",
+          "additionalProperties": {
+            "$ref": "#/$defs/row"
+          }
+        },
+        "undeclared": {
+          "$ref": "#/$defs/row",
+          "description": "acts in a directory no declaration covers"
+        },
+        "unaccountable": {
+          "$ref": "#/$defs/row",
+          "description": "acts covered by a declaration whose agent's chain of owners and parents reaches no person"
+        },
+        "declaration": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "the anahid.declaration/3 files used, or null",
+          "properties": {
+            "sources": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "humans": {
+              "type": "object",
+              "description": "each declared person's name and role; nothing else from the declaration is copied",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "role": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "byRepository": {
+          "type": "object",
+          "description": "project rows merged per git repository (main checkout); a directory that is gone or outside git keeps its own path",
+          "additionalProperties": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/row"
+              }
+            ],
+            "properties": {
+              "directories": {
+                "$ref": "#/$defs/count"
+              }
+            }
+          }
+        },
+        "ungroupedDirectories": {
+          "$ref": "#/$defs/count"
+        }
+      }
+    },
+    "row": {
+      "type": "object",
+      "required": [
+        "calls",
+        "refused",
+        "byLayer"
+      ],
+      "properties": {
+        "calls": {
+          "$ref": "#/$defs/count"
+        },
+        "refused": {
+          "$ref": "#/$defs/count"
+        },
+        "byLayer": {
+          "$ref": "#/$defs/counts"
+        },
+        "ranOnReviewerAlone": {
+          "$ref": "#/$defs/count"
+        }
+      }
+    }
+  },
+  "description": "Version 1 grows only by adding fields and values. Consumers ignore fields and values they do not know."
+}

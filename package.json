@@ -1,0 +1,45 @@
+{
+  "name": "anahid",
+  "version": "0.1.0",
+  "description": "Reads the Claude Code and Codex transcripts on your machine and reports what refused each tool call.",
+  "keywords": [
+    "claude-code",
+    "codex",
+    "ai-agents",
+    "audit",
+    "permissions",
+    "refusals"
+  ],
+  "type": "module",
+  "bin": {
+    "anahid": "bin/anahid.mjs"
+  },
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "bin",
+    "src",
+    "spec",
+    "README.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "sim": "node sim/run.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anahid-IO/anahid.git"
+  },
+  "homepage": "https://github.com/Anahid-IO/anahid#readme",
+  "bugs": "https://github.com/Anahid-IO/anahid/issues",
+  "author": "Mohammad Karimi",
+  "license": "Apache-2.0"
+}

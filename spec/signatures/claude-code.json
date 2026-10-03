@@ -1,0 +1,148 @@
+{
+  "schema": "anahid.signatures/1",
+  "agent": "claude-code",
+  "tested": [
+    "2.1.245",
+    "2.1.288"
+  ],
+  "vendorLabels": {
+    "user-rejected": "person",
+    "permission-rule": "rule",
+    "automode-blocked": "classifier",
+    "automode-unavailable": "classifier",
+    "interrupted": "interrupted",
+    "automode-parsing-error": "classifier"
+  },
+  "advice": {
+    "unanswered": "Approval was asked where nobody could answer, mostly in subagents and headless runs. Add an allow rule in settings.json for commands you trust there, or run that work where someone can answer.",
+    "rule": "A deny or ask rule in settings.json fired. Check each is a rule you meant to keep.",
+    "hook": "A PreToolUse hook blocked these. --examples 1 shows the hook and its message.",
+    "classifier": "Auto mode refused these. If a block was wrong, an allow rule in settings.json stops the question. When the classifier could not answer, nothing was judged: retry, or run that step outside auto mode.",
+    "builtin": "Claude Code's built-in checks, which no rule can turn off. Searches outside the project need the directory added with --add-dir or additionalDirectories.",
+    "unknown": "This version cannot place these. Please report the message text so a signature can be added.",
+    "program": "A program answered the prompt: a --permission-prompt-tool or an SDK host's permission callback. It speaks for whoever runs that program; --examples 1 shows its message."
+  },
+  "signatures": [
+    {
+      "id": "cc.person",
+      "layer": "person",
+      "pattern": "^The user doesn't want to (proceed with|take) this"
+    },
+    {
+      "id": "cc.interrupted",
+      "layer": "interrupted",
+      "pattern": "^\\[Request interrupted by user"
+    },
+    {
+      "id": "cc.hook-block",
+      "layer": "hook",
+      "pattern": "^(?<hook>PreToolUse:[A-Za-z]+) hook error:"
+    },
+    {
+      "id": "cc.no-approval-surface",
+      "layer": "unanswered",
+      "asker": "nobody (no approval surface)",
+      "pattern": "^Permission for this tool use was denied\\. It requires approval, and this session has no approval surface"
+    },
+    {
+      "id": "cc.subagent-no-surface",
+      "layer": "unanswered",
+      "asker": "nobody (subagent)",
+      "sidechain": true,
+      "inferred": true,
+      "why": "inside a subagent, a tool-wide denial with no command is what an unanswerable prompt produces; a deny rule on the whole tool would read the same",
+      "pattern": "^Permission to use [A-Za-z]+ has been denied\\."
+    },
+    {
+      "id": "cc.rule",
+      "layer": "rule",
+      "pattern": "^Permission to use [A-Za-z]+( with command .*)? has been denied\\."
+    },
+    {
+      "id": "cc.classifier-blocked",
+      "layer": "classifier",
+      "pattern": "denied by the Claude Code auto mode classifier(\\. Reason: \\[(?<reason>[^\\]]+)\\])?"
+    },
+    {
+      "id": "cc.classifier-safety-check",
+      "layer": "classifier",
+      "pattern": "a safety check separate from auto mode blocked this request"
+    },
+    {
+      "id": "cc.classifier-interrupted",
+      "layer": "classifier",
+      "pattern": "^Interrupted: the response that made this tool call was stopped by a safety classifier"
+    },
+    {
+      "id": "cc.classifier-unavailable",
+      "layer": "classifier",
+      "pattern": "(is temporarily unavailable .*so auto mode cannot determine|auto mode classifier gave no verdict|Auto mode could not evaluate this action)"
+    },
+    {
+      "id": "cc.builtin-safety-check",
+      "layer": "builtin",
+      "pattern": "^Permission for this (command|action) was denied by a built-in Claude Code safety check"
+    },
+    {
+      "id": "cc.builtin-workdir",
+      "layer": "builtin",
+      "pattern": " was blocked\\. For security, Claude Code may only "
+    },
+    {
+      "id": "cc.builtin-blocked",
+      "layer": "builtin",
+      "pattern": "^(<tool_use_error>)?Blocked: "
+    },
+    {
+      "id": "cc.ask-compound",
+      "layer": "unanswered",
+      "asker": "builtin",
+      "pattern": "^This Bash command contains multiple operations\\. The following parts? requires? approval",
+      "denialKind": "user-rejected"
+    },
+    {
+      "id": "cc.ask-command",
+      "layer": "unanswered",
+      "asker": "builtin",
+      "pattern": "^This command (requires approval|changes directory before running)",
+      "denialKind": "user-rejected"
+    },
+    {
+      "id": "cc.ask-parser",
+      "layer": "unanswered",
+      "asker": "builtin",
+      "pattern": "^Contains [a-z_ ]+",
+      "denialKind": "user-rejected"
+    },
+    {
+      "id": "cc.ask-write",
+      "layer": "unanswered",
+      "asker": "builtin",
+      "pattern": "^Claude requested permissions to .* but you haven't granted it yet",
+      "denialKind": "user-rejected"
+    },
+    {
+      "id": "cc.ask-check",
+      "layer": "unanswered",
+      "asker": "builtin",
+      "pattern": "^('[a-z]+' evaluates arguments as shell code|Glob patterns are not allowed in write operations|[a-z]+ command requires approval|Tilde in assignment value|This command uses shell operators that require approval)",
+      "denialKind": "user-rejected"
+    },
+    {
+      "id": "cc.ask-custom",
+      "layer": "unanswered",
+      "denialKind": "user-rejected",
+      "pattern": ".",
+      "inferred": true,
+      "why": "a person's refusal has a fixed wording and these approval messages do not match it"
+    },
+    {
+      "id": "cc.program-answer",
+      "layer": "program",
+      "denialKind": "permission-rule",
+      "inferred": true,
+      "why": "settings rules, hooks and built-in checks use fixed wording, so a permission-rule denial in free text is a program's answer to the prompt: a --permission-prompt-tool or an SDK host's permission callback",
+      "pattern": "."
+    }
+  ]
+}

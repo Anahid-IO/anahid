@@ -1,0 +1,36 @@
+{"text":"The user doesn't want to proceed with this tool use. The tool use was rejected (eg. if it was a file edit, the new_string was NOT written to the file). STOP what you are doing and wait for the user to tell you how to proceed.","denialKind":"user-rejected","layer":"person","signature":"cc.person","mislabelled":false}
+{"text":"Error: The user doesn't want to take this action right now.","denialKind":"user-rejected","layer":"person","signature":"cc.person","mislabelled":false}
+{"text":"[Request interrupted by user for tool use]","denialKind":"interrupted","layer":"interrupted","signature":"cc.interrupted","mislabelled":false}
+{"text":"PreToolUse:Bash hook error: [node \"/opt/guard.mjs\"]: enforcing mode: \"cat .env\" touches secrets","denialKind":"permission-rule","layer":"hook","signature":"cc.hook-block","mislabelled":true,"detail":"PreToolUse:Bash"}
+{"text":"Permission to use Bash with command rm -rf /tmp/build has been denied.","denialKind":"permission-rule","layer":"rule","signature":"cc.rule","mislabelled":false}
+{"text":"Permission to use Read has been denied. IMPORTANT: You *may* attempt to accomplish this action using other tools","denialKind":"permission-rule","layer":"rule","signature":"cc.rule","mislabelled":false}
+{"text":"Permission for this action was denied by the Claude Code auto mode classifier. Reason: [Remote Shell Writes]. If you have other tasks","denialKind":"automode-blocked","layer":"classifier","signature":"cc.classifier-blocked","mislabelled":false,"detail":"Remote Shell Writes"}
+{"text":"Permission for this action was denied by the Claude Code auto mode classifier. Reason: Blocked by classifier.","denialKind":"automode-blocked","layer":"classifier","signature":"cc.classifier-blocked","mislabelled":false}
+{"text":"claude-sonnet-5[1m] is temporarily unavailable (timed out), so auto mode cannot determine the safety of Bash right now.","denialKind":"automode-unavailable","layer":"classifier","signature":"cc.classifier-unavailable","mislabelled":false}
+{"text":"The server-side auto mode classifier gave no verdict (error), so auto mode cannot determine the safety of Bash.","denialKind":"automode-unavailable","layer":"classifier","signature":"cc.classifier-unavailable","mislabelled":false}
+{"text":"Permission for this command was denied by a built-in Claude Code safety check, not by the user.","denialKind":"permission-rule","layer":"builtin","signature":"cc.builtin-safety-check","mislabelled":true}
+{"text":"grep in '/home/u/.config/app/env' was blocked. For security, Claude Code may only search for patterns in files from the allowed working directories","denialKind":"user-rejected","layer":"builtin","signature":"cc.builtin-workdir","mislabelled":true}
+{"text":"Output redirection to '/tmp/x.patch' was blocked. For security, Claude Code may only write to files in the allowed working directories","denialKind":"user-rejected","layer":"builtin","signature":"cc.builtin-workdir","mislabelled":true}
+{"text":"<tool_use_error>Blocked: sleep 30 followed by: true. To wait for a condition, use Monitor","denialKind":null,"layer":"builtin","signature":"cc.builtin-blocked","mislabelled":false}
+{"text":"This Bash command contains multiple operations. The following part requires approval: pnpm -v","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-compound","mislabelled":true}
+{"text":"This Bash command contains multiple operations. The following parts require approval: ls -la, cat x","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-compound","mislabelled":true}
+{"text":"This command requires approval","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-command","mislabelled":true}
+{"text":"This command changes directory before running git, which can execute untrusted hooks","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-command","mislabelled":true}
+{"text":"Contains command_substitution","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-parser","mislabelled":true}
+{"text":"Contains brace with quote character (expansion obfuscation)","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-parser","mislabelled":true}
+{"text":"Claude requested permissions to write to /repo/a.txt, but you haven't granted it yet.","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-write","mislabelled":true}
+{"text":"node-gate: novel node invocation (-e) - review","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-custom","mislabelled":true}
+{"text":"something new the harness says","denialKind":"automode-something-new","layer":"unknown","signature":null,"mislabelled":false}
+{"text":"Contains a word but no denial label","denialKind":null,"layer":null}
+{"text":"<tool_use_error>File has not been read yet. Read it first before writing to it.</tool_use_error>","denialKind":null,"layer":null}
+{"text":"Exit code 1\nTraceback (most recent call last):","denialKind":null,"layer":null}
+{"text":"sed command requires approval (contains potentially dangerous operations)","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-check","mislabelled":true}
+{"text":"Tilde in assignment value — bash may expand at assignment time","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-check","mislabelled":true}
+{"text":"Glob patterns are not allowed in write operations. Please specify an exact file path.","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-check","mislabelled":true}
+{"text":"'alias' evaluates arguments as shell code","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-check","mislabelled":true}
+{"text":"This command uses shell operators that require approval for safety","denialKind":"user-rejected","layer":"unanswered","signature":"cc.ask-check","mislabelled":true}
+{"text":"Permission for this tool use was denied. It requires approval, and this session has no approval surface — nobody can answer a permission prompt here — so it was denied automatically. The action was NOT performed.","denialKind":"permission-rule","layer":"unanswered","signature":"cc.no-approval-surface","mislabelled":true}
+{"text":"Permission to use Bash has been denied. IMPORTANT: You *may* attempt to accomplish this action using other tools","denialKind":"permission-rule","sidechain":true,"layer":"unanswered","signature":"cc.subagent-no-surface","mislabelled":true}
+{"text":"The sim prompt tool refuses every request.","denialKind":"permission-rule","layer":"program","signature":"cc.program-answer","mislabelled":true}
+{"text":"Auto mode could not evaluate this action and is blocking it for safety — a safety check separate from auto mode blocked this request because of earlier conversation content — it isn't about the action itself — run with --debug for details.","denialKind":"automode-parsing-error","layer":"classifier","signature":"cc.classifier-safety-check","mislabelled":false}
+{"text":"Interrupted: the response that made this tool call was stopped by a safety classifier while the call was running; it may have partially or fully completed.","denialKind":"interrupted","layer":"classifier","signature":"cc.classifier-interrupted","mislabelled":true}
